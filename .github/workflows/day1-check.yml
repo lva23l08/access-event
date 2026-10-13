@@ -1,0 +1,22 @@
+name: Day 1 Check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check required files
+        run: |
+          echo "=== Checking files ==="
+          for f in README.md docs/analysis.md docs/requirements.md docs/tz.md docs/stakeholders.md; do
+            if [ -f "$f" ]; then
+              echo "PASS: $f found"
+            else
+              echo "FAIL: $f not found"
+              exit 1
+            fi
+          done
+          
+      - name: All checks passed
+        run: echo "ALL CHECKS PASSED"
