@@ -1,0 +1,23 @@
+name: Day 2 Check
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - '.github/workflows/day2-check.yml'
+jobs:
+  check-day2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check file structure
+        run: |
+          echo "Проверка наличия файлов..."
+          for f in docs/schema.sql docs/security.md docs/architecture.md docs/er_diagram.png; do
+            if [ ! -f "$f" ]; then
+              echo "FAIL: Файл $f не найден"
+              exit 1
+            fi
+            echo "PASS: $f найден"
+          done
+      - name: All checks passed
+        run: echo "Все проверки Day 2 пройдены успешно!"
